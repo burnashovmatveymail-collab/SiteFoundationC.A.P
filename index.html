@@ -6,51 +6,171 @@
 <title>C.A.P Foundation — Secure Portal</title>
 <style>
   :root{
-    --bg:#061107;--panel:#08140a;--grid:#0f2612;--accent:#5df37a;--accent2:#32c95a;
-    --text:#d7f7df;--muted:#8fb89a;--danger:#ff5b5b;--card:#0b1a0d;
+    /* Чёрно-красная тема */
+    --bg:#070709;            /* основной фон */
+    --panel:#0d0d11;         /* панели/карточки */
+    --accent:#ff3b3b;        /* акцент красный */
+    --accent2:#d81f1f;       /* тёмный красный */
+    --text:#f2f2f4;          /* основной текст */
+    --muted:#a89aa2;         /* вторичный текст */
+    --danger:#ff5959;        /* опасные действия */
+    --card:#101016;          /* фон карточек */
   }
+
   *{box-sizing:border-box}
-  body{margin:0;background:
-    radial-gradient(1200px 600px at 50% -10%,rgba(27,74,38,0.25),transparent 70%),
-    linear-gradient(180deg,#061107 0%, #040b06 100%);
-    color:var(--text);font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
-    min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:24px}
-  .wrap{width:1120px;max-width:98%;background:
-    linear-gradient(180deg,rgba(93,243,122,0.06),rgba(0,0,0,0.22));
-    border:1px solid rgba(93,243,122,0.18);border-radius:12px;padding:16px 16px 22px;
-    box-shadow:0 12px 60px rgba(0,0,0,0.55)}
+  html,body{height:100%}
+  body{
+    margin:0;
+    background:
+      radial-gradient(1200px 600px at 50% -10%, rgba(255, 48, 48, 0.18), transparent 70%),
+      radial-gradient(800px 400px at 10% 100%, rgba(255, 0, 64, 0.12), transparent 65%),
+      linear-gradient(180deg, #08080b 0%, #040306 100%);
+    color:var(--text);
+    font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+    min-height:100vh;
+    display:flex;align-items:flex-start;justify-content:center;
+    padding:24px;
+    overflow-x:hidden;
+  }
+
+  /* анимированная скан-линия */
+  body::before{
+    content:"";
+    position:fixed; left:0; right:0;
+    height:2px;
+    background:linear-gradient(90deg, transparent, var(--accent), transparent);
+    animation:scan 4.5s linear infinite;
+    z-index:1; opacity:.35;
+  }
+  @keyframes scan { 0%{ top:0% } 100%{ top:100% } }
+
+  .wrap{
+    width:1120px;max-width:98%;
+    background:linear-gradient(180deg, rgba(255,59,59,0.06), rgba(0,0,0,0.22));
+    border:1px solid rgba(255,59,59,0.18);
+    border-radius:12px;
+    padding:16px 16px 22px;
+    box-shadow:0 12px 60px rgba(0,0,0,0.6);
+    position:relative;
+  }
+
+  /* тонкая красная сетка */
+  .grid{
+    background-image:
+      linear-gradient(rgba(255,60,60,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,60,60,0.06) 1px, transparent 1px);
+    background-size:24px 24px;
+    border-radius:10px;
+    border:1px solid rgba(255,59,59,0.12);
+  }
+
   header{display:flex;align-items:center;gap:12px}
-  .logo{font-weight:800;letter-spacing:2px;color:var(--accent);
-    padding:6px 10px;border-radius:8px;background:rgba(93,243,122,0.06);
-    border:1px solid rgba(93,243,122,0.2)}
+  .logo{
+    font-weight:800;letter-spacing:2px;color:var(--accent);
+    padding:6px 10px;border-radius:8px;
+    background:rgba(255,59,59,0.06);
+    border:1px solid rgba(255,59,59,0.25);
+    text-shadow:0 0 10px rgba(255,59,59,0.35);
+  }
   .scan{color:var(--muted);font-size:12px}
-  .grid{background-image:linear-gradient(rgba(50,201,90,0.08) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(50,201,90,0.08) 1px,transparent 1px);
-        background-size:24px 24px; border-radius:10px; border:1px solid rgba(93,243,122,0.12)}
-  .card{background:var(--card);padding:14px;border-radius:10px;border:1px solid rgba(93,243,122,0.15);margin-top:12px}
+  .small{font-size:12px;color:var(--muted)}
+
+  .card{
+    background:var(--card);
+    padding:14px;border-radius:10px;
+    border:1px solid rgba(255,59,59,0.15);
+    margin-top:12px;
+    box-shadow:0 6px 20px rgba(255,0,32,0.05) inset;
+  }
+
   label{width:170px;color:var(--muted);font-size:13px}
-  input, select, textarea{flex:1;padding:10px;border-radius:8px;background:transparent;
-    border:1px dashed rgba(93,243,122,0.25);color:inherit;outline:none}
+  input, select, textarea{
+    flex:1;padding:10px;border-radius:8px;background:transparent;
+    border:1px dashed rgba(255,59,59,0.28);
+    color:inherit;outline:none;
+  }
+  input:focus, select:focus, textarea:focus{
+    border-style:solid;
+    box-shadow:0 0 0 3px rgba(255,59,59,0.12);
+  }
   textarea{resize:vertical}
   form.row{display:flex;gap:12px;align-items:center;margin-bottom:10px}
-  .btn{background:linear-gradient(180deg,var(--accent),var(--accent2));
-    border:none;padding:10px 14px;border-radius:8px;color:#041006;font-weight:800;cursor:pointer}
-  .btn.ghost{background:transparent;border:1px solid rgba(93,243,122,0.33);color:var(--text)}
-  .btn.danger{background:var(--danger);color:#fff}
+
+  .btn{
+    background:linear-gradient(180deg, var(--accent), var(--accent2));
+    border:none;padding:10px 14px;border-radius:8px;
+    color:#1a0a0e;font-weight:800;cursor:pointer;
+    transition:transform .05s ease, box-shadow .2s ease;
+    box-shadow:0 0 0 0 rgba(255,59,59,0.0);
+  }
+  .btn:hover{ box-shadow:0 0 18px 2px rgba(255,59,59,0.22) }
+  .btn:active{ transform:translateY(1px) }
+  .btn.ghost{
+    background:transparent;
+    border:1px solid rgba(255,59,59,0.35);
+    color:var(--text);
+  }
+  .btn.ghost:hover{ box-shadow:0 0 14px 1px rgba(255,59,59,0.18) }
+  .btn.danger{ background:var(--danger); color:#fff }
+
   .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-  .small{font-size:12px;color:var(--muted)}
   .docs{display:grid;gap:10px}
-  .doc{padding:12px;border-radius:8px;border:1px solid rgba(93,243,122,0.15);
-       background:linear-gradient(180deg,rgba(50,201,90,0.05),rgba(0,0,0,0.05))}
-  .tag{display:inline-block;padding:2px 8px;border-radius:999px;border:1px solid rgba(93,243,122,0.3);font-size:12px;color:var(--accent)}
-  .modal-back{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:60}
-  .modal{width:820px;max-width:95%;background:var(--panel);padding:16px;border-radius:10px;border:1px solid rgba(93,243,122,0.18)}
+  .doc{
+    padding:12px;border-radius:8px;
+    border:1px solid rgba(255,59,59,0.15);
+    background:linear-gradient(180deg, rgba(255,64,64,0.05), rgba(0,0,0,0.05));
+  }
+  .tag{
+    display:inline-block;padding:2px 8px;border-radius:999px;
+    border:1px solid rgba(255,59,59,0.35);
+    font-size:12px;color:var(--accent);
+    text-shadow:0 0 6px rgba(255,59,59,0.25);
+  }
+
+  .modal-back{position:fixed;inset:0;background:rgba(0,0,0,0.65);display:none;align-items:center;justify-content:center;z-index:60}
+  .modal{
+    width:820px;max-width:95%;
+    background:var(--panel);padding:16px;border-radius:10px;
+    border:1px solid rgba(255,59,59,0.18);
+    box-shadow:0 16px 60px rgba(255,0,32,0.15);
+  }
+
   .hidden{display:none}
-  .lang-select{padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(93,243,122,0.22);color:inherit}
+  .lang-select{
+    padding:8px;border-radius:8px;background:transparent;
+    border:1px solid rgba(255,59,59,0.22);color:inherit
+  }
+
   .sidebar{width:280px}
-  .cat-item{padding:8px;border-radius:8px;background:rgba(50,201,90,0.05);border:1px solid rgba(93,243,122,0.12);cursor:pointer;margin-bottom:6px}
-  .cat-item.active{outline:2px solid rgba(93,243,122,0.35)}
-  .hr{height:1px;background:linear-gradient(90deg,transparent,rgba(93,243,122,0.35),transparent);margin:10px 0}
+  .cat-item{
+    padding:8px;border-radius:8px;background:rgba(255,59,59,0.06);
+    border:1px solid rgba(255,59,59,0.18);cursor:pointer;margin-bottom:6px
+  }
+  .cat-item.active{ outline:2px solid rgba(255,59,59,0.38) }
+
+  .hr{
+    height:1px;
+    background:linear-gradient(90deg, transparent, rgba(255,59,59,0.35), transparent);
+    margin:10px 0
+  }
+
+  /* Заставка загрузки системы */
+  #boot{
+    position:fixed; inset:0; display:none; z-index:80;
+    background:rgba(0,0,0,0.8);
+    backdrop-filter: blur(2px);
+  }
+  #boot .term{
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    width:800px; max-width:92%;
+    background:#0b0b11; border:1px solid rgba(255,59,59,.25); border-radius:10px;
+    padding:16px;
+    box-shadow:0 18px 80px rgba(255,0,32,.18);
+    color:#e6e6ea; font-size:14px; line-height:1.5;
+  }
+  #boot pre{ white-space:pre-wrap; margin:0; }
+  #caret{ display:inline-block; width:8px; height:16px; background:var(--accent); animation:blink 1s steps(1) infinite; vertical-align:middle; }
+  @keyframes blink { 50%{ opacity:0 } }
 </style>
 </head>
 <body>
@@ -58,27 +178,31 @@
   <header>
     <div class="logo">C.A.P FOUNDATION</div>
     <div>
-      <div class="scan" id="subtitle">CLASSIFIED — INTERNAL SECURE PORTAL</div>
+      <div class="scan" id="subtitle" data-i18n="subtitle">CLASSIFIED — INTERNAL SECURE PORTAL</div>
       <div class="small" id="subtitle2">Control of Anomalous Phenomena • v2025.08</div>
     </div>
     <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
-      <select id="uiLang" class="lang-select"></select>
+      <select id="uiLang" class="lang-select" title="Language"></select>
       <div id="sessionInfo" class="small"></div>
     </div>
   </header>
 
-  <!-- LOGIN (без демо-кнопки) -->
+  <!-- LOGIN -->
   <div id="loginCard" class="card">
-    <h3 id="t_login_title">Защищённый вход</h3>
-    <p class="small" id="t_login_hint">Регистрация отключена. Учетные записи создаются АСБ.</p>
+    <h3 id="t_login_title" data-i18n="login_title">Защищённый вход</h3>
+    <p class="small" id="t_login_hint" data-i18n="login_hint">Регистрация отключена. Учётные записи создаются АСБ.</p>
     <form onsubmit="return false;">
-      <div class="row"><label id="l_login">Логин</label><input id="inpLogin" type="text" autocomplete="off" /></div>
-      <div class="row"><label id="l_password">Пароль</label><input id="inpPass" type="password" /></div>
-      <div class="row"><label id="l_access">Уровень доступа</label>
-        <select id="inpAccess"><option value="BETA">BETA</option><option value="OMEGA">OMEGA</option><option value="ADMIN">ADMIN</option></select>
+      <div class="row"><label id="l_login" data-i18n="login_label">Логин</label><input id="inpLogin" type="text" autocomplete="off" /></div>
+      <div class="row"><label id="l_password" data-i18n="password_label">Пароль</label><input id="inpPass" type="password" /></div>
+      <div class="row"><label id="l_access" data-i18n="access_label">Уровень доступа</label>
+        <select id="inpAccess">
+          <option value="BETA">BETA</option>
+          <option value="OMEGA">OMEGA</option>
+          <option value="ADMIN">ADMIN</option>
+        </select>
       </div>
       <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:8px">
-        <button id="btnLogin" class="btn" type="button">ДОСТУП К БАЗЕ</button>
+        <button id="btnLogin" class="btn" type="button" data-i18n="login_btn">ДОСТУП К БАЗЕ</button>
       </div>
     </form>
   </div>
@@ -87,14 +211,15 @@
   <div id="panel" class="card hidden">
     <div class="topbar">
       <div>
-        <strong id="t_admin_panel">Панель управления</strong>
+        <strong id="t_admin_panel" data-i18n="panel_title">Панель управления</strong>
         <div class="small" id="whoami"></div>
       </div>
       <div style="display:flex;gap:8px;align-items:center">
-        <button id="btnAdd" class="btn hidden">Добавить документ</button>
-        <button id="btnCreateUser" class="btn hidden">Создать аккаунт</button>
-        <button id="btnUsersList" class="btn hidden">Список аккаунтов</button>
-        <button id="btnLogout" class="btn ghost">Выйти</button>
+        <button id="btnAdd" class="btn hidden" data-i18n="btn_add_doc">Добавить документ</button>
+        <button id="btnCreateUser" class="btn hidden" data-i18n="btn_create_user">Создать аккаунт</button>
+        <button id="btnUsersList" class="btn hidden" data-i18n="btn_users_list">Список аккаунтов</button>
+        <button id="btnManageCats" class="btn hidden" data-i18n="btn_manage_cats">Категории</button>
+        <button id="btnLogout" class="btn ghost" data-i18n="btn_logout">Выйти</button>
       </div>
     </div>
 
@@ -102,35 +227,34 @@
       <!-- LEFT -->
       <div style="flex:1">
         <div style="display:flex;justify-content:space-between;align-items:center">
-          <h4 id="t_docs">Документы</h4>
+          <h4 id="t_docs" data-i18n="docs_title">Документы</h4>
           <div>
-            <span class="small">Фильтр:</span>
+            <span class="small" id="t_filter" data-i18n="filter">Фильтр</span>:
             <select id="catFilter" class="lang-select" style="padding:6px"></select>
           </div>
         </div>
-        <div id="docEmpty" class="small">Документов на текущем языке/категории нет.</div>
+        <div id="docEmpty" class="small" data-i18n="docs_empty">Документов на текущем языке/категории нет.</div>
         <div id="docList" class="docs"></div>
       </div>
 
       <!-- RIGHT -->
       <div class="sidebar">
         <div class="card">
-          <div class="small">Состояние</div>
+          <div class="small" data-i18n="status">Состояние</div>
           <div class="hr"></div>
-          <div class="small">UI язык: <strong id="curLangLabel">Русский</strong></div>
-          <div class="small">Документы (язык): <strong id="docsLangLabel">Русский</strong></div>
-          <div class="small">Всего аккаунтов: <strong id="usersCount">0</strong></div>
+          <div class="small" data-i18n="ui_lang">UI язык: <strong id="curLangLabel">Русский</strong></div>
+          <div class="small" data-i18n="docs_lang">Документы (язык): <strong id="docsLangLabel">Русский</strong></div>
+          <div class="small"><span data-i18n="users_total">Всего аккаунтов</span>: <strong id="usersCount">0</strong></div>
           <div class="hr"></div>
-          <div class="small">Категории:</div>
+          <div class="small" data-i18n="cats">Категории</div>
           <div id="catsBox"></div>
         </div>
 
         <div class="card" style="margin-top:10px">
-          <div class="small">Быстрые действия</div>
+          <div class="small" data-i18n="quick_actions">Быстрые действия</div>
           <div class="hr"></div>
-          <button id="btnExport" class="btn ghost">Экспорт БД</button>
-          <button id="btnImport" class="btn ghost">Импорт БД</button>
-          <button id="btnManageCats" class="btn ghost hidden">Категории</button>
+          <button id="btnExport" class="btn ghost" data-i18n="export_db">Экспорт БД</button>
+          <button id="btnImport" class="btn ghost" data-i18n="import_db">Импорт БД</button>
         </div>
       </div>
     </div>
@@ -139,25 +263,25 @@
   <!-- Modal: Add Document -->
   <div id="modalDoc" class="modal-back">
     <div class="modal">
-      <h3>Добавить документ</h3>
-      <div class="small">Сохранится на текущем языке интерфейса.</div>
-      <div style="margin-top:8px"><input id="docTitle" placeholder="Заголовок" /></div>
+      <h3 data-i18n="add_doc">Добавить документ</h3>
+      <div class="small" data-i18n="doc_lang_notice">Сохранится на текущем языке интерфейса.</div>
+      <div style="margin-top:8px"><input id="docTitle" placeholder="Заголовок" data-i18n-ph="ph_title" /></div>
       <div style="margin-top:8px;display:flex;gap:8px;align-items:center">
-        <label style="width:170px">Категория</label>
+        <label style="width:170px" data-i18n="category">Категория</label>
         <select id="docCategory"></select>
       </div>
-      <div id="newCatRow" style="display:none;margin-top:8px"><input id="docNewCategory" placeholder="Новая категория" /></div>
+      <div id="newCatRow" style="display:none;margin-top:8px"><input id="docNewCategory" data-i18n-ph="ph_new_cat" placeholder="Новая категория" /></div>
       <div style="margin-top:8px">
-        <label style="width:170px;display:block;margin-bottom:6px">Класс</label>
-        <select id="docClass" style="width:100%;padding:10px;border-radius:8px;background:transparent;border:1px dashed rgba(93,243,122,0.25);color:inherit">
-          <option value="ALPHA">ALPHA</option><option value="BETA">BETA</option><option value="OMEGA">OMEGA</option><option value="CUSTOM">CUSTOM</option>
+        <label style="width:170px;display:block;margin-bottom:6px" data-i18n="class">Класс</label>
+        <select id="docClass" style="width:100%;padding:10px;border-radius:8px;background:transparent;border:1px dashed rgba(255,59,59,0.25);color:inherit">
+          <option value="ALPHA">ALPHA</option><option value="BETA">BETA</option><option value="OMEGA">OMEGA</option><option value="CUSTOM" data-i18n="custom">CUSTOM</option>
         </select>
       </div>
-      <div id="customClassRow" style="display:none;margin-top:8px"><input id="docCustomClass" placeholder="Свой класс (если CUSTOM)" /></div>
-      <div style="margin-top:8px"><textarea id="docBody" rows="9" placeholder="Текст документа"></textarea></div>
+      <div id="customClassRow" style="display:none;margin-top:8px"><input id="docCustomClass" data-i18n-ph="ph_custom_class" placeholder="Свой класс (если CUSTOM)" /></div>
+      <div style="margin-top:8px"><textarea id="docBody" rows="9" data-i18n-ph="ph_body" placeholder="Текст документа"></textarea></div>
       <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:10px">
-        <button id="saveDoc" class="btn">Сохранить</button>
-        <button id="cancelDoc" class="btn ghost">Отмена</button>
+        <button id="saveDoc" class="btn" data-i18n="save">Сохранить</button>
+        <button id="cancelDoc" class="btn ghost" data-i18n="cancel">Отмена</button>
       </div>
     </div>
   </div>
@@ -165,64 +289,331 @@
   <!-- Modal: Create User -->
   <div id="modalUser" class="modal-back">
     <div class="modal">
-      <h3>Создать аккаунт</h3>
-      <div class="small">Регистрация закрыта. Аккаунты создаёт администратор.</div>
-      <div style="margin-top:8px"><input id="uLogin" placeholder="Логин" /></div>
-      <div style="margin-top:8px"><input id="uPass" placeholder="Пароль" /></div>
-      <div style="margin-top:8px"><input id="uEmail" placeholder="Почта" /></div>
-      <div style="margin-top:8px"><input id="uFullName" placeholder="Имя и Фамилия" /></div>
-      <div style="margin-top:8px"><input id="uRole" placeholder="Должность (Scientist, Hunter…)" /></div>
+      <h3 data-i18n="create_user">Создать аккаунт</h3>
+      <div class="small" data-i18n="create_user_hint">Регистрация закрыта. Аккаунты создаёт администратор.</div>
+      <div style="margin-top:8px"><input id="uLogin" placeholder="Логин" data-i18n-ph="ph_login" /></div>
+      <div style="margin-top:8px"><input id="uPass" placeholder="Пароль" data-i18n-ph="ph_password" /></div>
+      <div style="margin-top:8px"><input id="uEmail" placeholder="Почта" data-i18n-ph="ph_email" /></div>
+      <div style="margin-top:8px"><input id="uFullName" placeholder="Имя и Фамилия" data-i18n-ph="ph_fullname" /></div>
+      <div style="margin-top:8px"><input id="uRole" placeholder="Должность (Scientist, Hunter…)" data-i18n-ph="ph_role" /></div>
       <div style="margin-top:8px"><select id="uAccess"><option value="BETA">BETA</option><option value="OMEGA">OMEGA</option><option value="ADMIN">ADMIN</option></select></div>
       <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:10px">
-        <button id="saveUser" class="btn">Создать</button>
-        <button id="cancelUser" class="btn ghost">Отмена</button>
+        <button id="saveUser" class="btn" data-i18n="create">Создать</button>
+        <button id="cancelUser" class="btn ghost" data-i18n="cancel">Отмена</button>
       </div>
     </div>
   </div>
 
-  <!-- Modal: Users List (Только главный админ) -->
+  <!-- Modal: Users List -->
   <div id="modalUsersList" class="modal-back">
     <div class="modal">
-      <h3>Список аккаунтов</h3>
-      <div class="small">Просмотр, редактирование и удаление аккаунтов. Доступно только главному администратору.</div>
+      <h3 data-i18n="users_list">Список аккаунтов</h3>
+      <div class="small" data-i18n="users_list_hint">Просмотр, редактирование и удаление аккаунтов. Доступно только главному администратору.</div>
       <div id="usersTable" style="margin-top:10px"></div>
       <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:10px">
-        <button id="closeUsersList" class="btn ghost">Закрыть</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal: Manage Categories -->
-  <div id="modalCats" class="modal-back">
-    <div class="modal">
-      <h3>Категории (текущий язык)</h3>
-      <div class="small">Создание / переименование / удаление.</div>
-      <div id="catManageList" style="margin-top:12px;display:flex;flex-direction:column;gap:8px"></div>
-      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
-        <button id="closeCats" class="btn ghost">Закрыть</button>
+        <button id="closeUsersList" class="btn ghost" data-i18n="close">Закрыть</button>
       </div>
     </div>
   </div>
 
 </div>
 
+<!-- Boot screen -->
+<div id="boot">
+  <div class="term"><pre id="bootLog"></pre></div>
+</div>
+
 <script>
-/* Keys */
-const KEY_USERS='cap_users_v3';
-const KEY_DOCS='cap_docs_v3';
-const KEY_CATS='cap_cats_v2';
-const KEY_SESSION='cap_session_v3';
-const KEY_LANG='cap_lang_v3';
+/* ====== CONSTANTS / STORAGE KEYS ====== */
+const KEY_USERS='cap_users_v4';
+const KEY_DOCS='cap_docs_v4';
+const KEY_CATS='cap_cats_v3';
+const KEY_SESSION='cap_session_v4';
+const KEY_LANG='cap_lang_v4';
 const MASTER_LOGIN='C.A.P Admin Foundation';
 const MASTER_PASS='QwePoiCAP';
 
-/* Langs (UI only) */
-const languages=[{code:'ru',label:'Русский'},{code:'en',label:'English'},{code:'uk',label:'Українська'},{code:'he',label:'עברית'},{code:'fr',label:'Français'},{code:'de',label:'Deutsch'},{code:'es',label:'Español'},{code:'ja',label:'日本語'}];
+/* ====== I18N DICTIONARY ======
+   Ключи: используем data-i18n / data-i18n-ph для текстов и плейсхолдеров */
+const I18N={
+  en:{subtitle:"CLASSIFIED — INTERNAL SECURE PORTAL",
+      login_title:"Secure Login",
+      login_hint:"Registration is disabled. Accounts are issued by ASB.",
+      login_label:"Login", password_label:"Password", access_label:"Access level",
+      login_btn:"ACCESS DATABASE",
+      panel_title:"Control Panel",
+      docs_title:"Documents", filter:"Filter",
+      docs_empty:"No documents for the current language/category.",
+      status:"Status", ui_lang:"UI language: ", docs_lang:"Documents (language): ",
+      users_total:"Total accounts", cats:"Categories",
+      quick_actions:"Quick actions", export_db:"Export DB", import_db:"Import DB",
+      btn_add_doc:"Add document", btn_create_user:"Create account",
+      btn_users_list:"Accounts list", btn_manage_cats:"Categories",
+      btn_logout:"Logout",
+      add_doc:"Add document", doc_lang_notice:"Will be saved in the current UI language.",
+      category:"Category", class:"Class", custom:"CUSTOM",
+      save:"Save", cancel:"Cancel",
+      create_user:"Create account", create_user_hint:"Registration is closed. Admin creates accounts.",
+      create:"Create", users_list:"Accounts list", users_list_hint:"View/Edit/Delete accounts. Master admin only.",
+      close:"Close",
+      ph_title:"Title", ph_new_cat:"New category", ph_custom_class:"Custom class (if CUSTOM)",
+      ph_body:"Document text...", ph_login:"Login", ph_password:"Password",
+      ph_email:"Email", ph_fullname:"Full name", ph_role:"Role (Scientist, Hunter…)",
+      alert_denied:"Access denied. Check credentials.",
+      alert_fill:"Fill required fields.",
+      all:"All",
+      rename_ok:"Renamed", cat_none:"— No category —", cat_new:"— Create new category —",
+      confirm_logout:"Log out?",
+      confirm_del_doc:"Delete document?",
+      confirm_del_user:"Delete account ",
+      cannot_del_master:"Cannot delete master account",
+      only_master:"Master admin only" },
+  ru:{subtitle:"СЕКРЕТНО — ВНУТРЕННИЙ ЗАЩИЩЁННЫЙ ПОРТАЛ",
+      login_title:"Защищённый вход",
+      login_hint:"Регистрация отключена. Учётные записи создаются АСБ.",
+      login_label:"Логин", password_label:"Пароль", access_label:"Уровень доступа",
+      login_btn:"ДОСТУП К БАЗЕ",
+      panel_title:"Панель управления",
+      docs_title:"Документы", filter:"Фильтр",
+      docs_empty:"Документов на текущем языке/категории нет.",
+      status:"Состояние", ui_lang:"UI язык: ", docs_lang:"Документы (язык): ",
+      users_total:"Всего аккаунтов", cats:"Категории",
+      quick_actions:"Быстрые действия", export_db:"Экспорт БД", import_db:"Импорт БД",
+      btn_add_doc:"Добавить документ", btn_create_user:"Создать аккаунт",
+      btn_users_list:"Список аккаунтов", btn_manage_cats:"Категории",
+      btn_logout:"Выйти",
+      add_doc:"Добавить документ", doc_lang_notice:"Сохранится на текущем языке интерфейса.",
+      category:"Категория", class:"Класс", custom:"CUSTOM",
+      save:"Сохранить", cancel:"Отмена",
+      create_user:"Создать аккаунт", create_user_hint:"Регистрация закрыта. Аккаунты создаёт администратор.",
+      create:"Создать", users_list:"Список аккаунтов", users_list_hint:"Просмотр/редактирование/удаление. Только главный админ.",
+      close:"Закрыть",
+      ph_title:"Заголовок", ph_new_cat:"Новая категория", ph_custom_class:"Свой класс (если CUSTOM)",
+      ph_body:"Текст документа…", ph_login:"Логин", ph_password:"Пароль",
+      ph_email:"Почта", ph_fullname:"Имя и Фамилия", ph_role:"Должность (Scientist, Hunter…)",
+      alert_denied:"Доступ запрещён. Проверьте данные.",
+      alert_fill:"Заполните обязательные поля.",
+      all:"Все",
+      rename_ok:"Переименовано", cat_none:"— Без категории —", cat_new:"— Создать новую категорию —",
+      confirm_logout:"Выйти из системы?",
+      confirm_del_doc:"Удалить документ?",
+      confirm_del_user:"Удалить аккаунт ",
+      cannot_del_master:"Нельзя удалить главный аккаунт",
+      only_master:"Доступ только главному администратору" },
+  uk:{subtitle:"СЕКРЕТНО — ВНУТРІШНІЙ ЗАХИЩЕНИЙ ПОРТАЛ",
+      login_title:"Захищений вхід",
+      login_hint:"Реєстрація вимкнена. Облікові записи створює АСБ.",
+      login_label:"Логін", password_label:"Пароль", access_label:"Рівень доступу",
+      login_btn:"ДОСТУП ДО БАЗИ",
+      panel_title:"Панель керування",
+      docs_title:"Документи", filter:"Фільтр",
+      docs_empty:"Документів для поточної мови/категорії немає.",
+      status:"Стан", ui_lang:"Мова UI: ", docs_lang:"Документи (мова): ",
+      users_total:"Усього акаунтів", cats:"Категорії",
+      quick_actions:"Швидкі дії", export_db:"Експорт БД", import_db:"Імпорт БД",
+      btn_add_doc:"Додати документ", btn_create_user:"Створити акаунт",
+      btn_users_list:"Список акаунтів", btn_manage_cats:"Категорії",
+      btn_logout:"Вийти",
+      add_doc:"Додати документ", doc_lang_notice:"Збережеться поточною мовою інтерфейсу.",
+      category:"Категорія", class:"Клас", custom:"CUSTOM",
+      save:"Зберегти", cancel:"Скасувати",
+      create_user:"Створити акаунт", create_user_hint:"Реєстрацію закрито. Акаунти створює адміністратор.",
+      create:"Створити", users_list:"Список акаунтів", users_list_hint:"Перегляд/редагування/видалення. Лише головний адмін.",
+      close:"Закрити",
+      ph_title:"Заголовок", ph_new_cat:"Нова категорія", ph_custom_class:"Власний клас (якщо CUSTOM)",
+      ph_body:"Текст документа…", ph_login:"Логін", ph_password:"Пароль",
+      ph_email:"Пошта", ph_fullname:"Ім’я та Прізвище", ph_role:"Посада (Scientist, Hunter…)",
+      alert_denied:"Доступ заборонено. Перевірте дані.",
+      alert_fill:"Заповніть обов’язкові поля.",
+      all:"Усі",
+      rename_ok:"Перейменовано", cat_none:"— Без категорії —", cat_new:"— Створити нову категорію —",
+      confirm_logout:"Вийти з системи?",
+      confirm_del_doc:"Видалити документ?",
+      confirm_del_user:"Видалити акаунт ",
+      cannot_del_master:"Не можна видалити головний акаунт",
+      only_master:"Доступ лише головному адміністратору" },
+  he:{subtitle:"מסווג — פורטל פנימי מאובטח",
+      login_title:"כניסה מאובטחת",
+      login_hint:"הרשמה מושבתת. חשבונות נוצרים על ידי ASB.",
+      login_label:"שם משתמש", password_label:"סיסמה", access_label:"רמת גישה",
+      login_btn:"כניסה למאגר",
+      panel_title:"לוח בקרה",
+      docs_title:"מסמכים", filter:"מסנן",
+      docs_empty:"אין מסמכים לשפה/קטגוריה הנוכחית.",
+      status:"מצב", ui_lang:"שפת ממשק: ", docs_lang:"מסמכים (שפה): ",
+      users_total:"סה\"כ חשבונות", cats:"קטגוריות",
+      quick_actions:"פעולות מהירות", export_db:"ייצוא בסיס נתונים", import_db:"ייבוא בסיס נתונים",
+      btn_add_doc:"הוסף מסמך", btn_create_user:"צור חשבון",
+      btn_users_list:"רשימת חשבונות", btn_manage_cats:"קטגוריות",
+      btn_logout:"התנתק",
+      add_doc:"הוסף מסמך", doc_lang_notice:"יישמר בשפת הממשק הנוכחית.",
+      category:"קטגוריה", class:"מחלקה", custom:"CUSTOM",
+      save:"שמירה", cancel:"ביטול",
+      create_user:"צור חשבון", create_user_hint:"הרשמה סגורה. המנהל יוצר חשבונות.",
+      create:"צור", users_list:"רשימת חשבונות", users_list_hint:"צפייה/עריכה/מחיקה. למנהל הראשי בלבד.",
+      close:"סגור",
+      ph_title:"כותרת", ph_new_cat:"קטגוריה חדשה", ph_custom_class:"מחלקה מותאמת (אם CUSTOM)",
+      ph_body:"טקסט המסמך…", ph_login:"שם משתמש", ph_password:"סיסמה",
+      ph_email:"אימייל", ph_fullname:"שם מלא", ph_role:"תפקיד (Scientist, Hunter…)",
+      alert_denied:"הגישה נדחתה. בדוק את הפרטים.",
+      alert_fill:"מלא שדות חובה.",
+      all:"הכול",
+      rename_ok:"שונה", cat_none:"— ללא קטגוריה —", cat_new:"— צור קטגוריה חדשה —",
+      confirm_logout:"להתנתק?",
+      confirm_del_doc:"למחוק מסמך?",
+      confirm_del_user:"למחוק חשבון ",
+      cannot_del_master:"אין אפשרות למחוק את חשבון המנהל הראשי",
+      only_master:"גישה למנהל הראשי בלבד" },
+  fr:{subtitle:"CLASSIFIÉ — PORTAIL INTERNE SÉCURISÉ",
+      login_title:"Connexion sécurisée",
+      login_hint:"L'inscription est désactivée. Comptes créés par l'ASB.",
+      login_label:"Identifiant", password_label:"Mot de passe", access_label:"Niveau d'accès",
+      login_btn:"ACCÉDER À LA BASE",
+      panel_title:"Panneau de contrôle",
+      docs_title:"Documents", filter:"Filtre",
+      docs_empty:"Aucun document pour la langue/catégorie actuelle.",
+      status:"Statut", ui_lang:"Langue UI : ", docs_lang:"Documents (langue) : ",
+      users_total:"Comptes totaux", cats:"Catégories",
+      quick_actions:"Actions rapides", export_db:"Exporter la BD", import_db:"Importer la BD",
+      btn_add_doc:"Ajouter document", btn_create_user:"Créer un compte",
+      btn_users_list:"Liste des comptes", btn_manage_cats:"Catégories",
+      btn_logout:"Déconnexion",
+      add_doc:"Ajouter document", doc_lang_notice:"Sera enregistré dans la langue d'interface actuelle.",
+      category:"Catégorie", class:"Classe", custom:"CUSTOM",
+      save:"Enregistrer", cancel:"Annuler",
+      create_user:"Créer un compte", create_user_hint:"Inscription fermée. Comptes créés par l'admin.",
+      create:"Créer", users_list:"Liste des comptes", users_list_hint:"Voir/Modifier/Supprimer. Admin maître uniquement.",
+      close:"Fermer",
+      ph_title:"Titre", ph_new_cat:"Nouvelle catégorie", ph_custom_class:"Classe personnalisée (si CUSTOM)",
+      ph_body:"Texte du document…", ph_login:"Identifiant", ph_password:"Mot de passe",
+      ph_email:"E-mail", ph_fullname:"Nom complet", ph_role:"Rôle (Scientist, Hunter…)",
+      alert_denied:"Accès refusé. Vérifiez les données.",
+      alert_fill:"Remplissez les champs requis.",
+      all:"Tous",
+      rename_ok:"Renommé", cat_none:"— Sans catégorie —", cat_new:"— Créer une nouvelle catégorie —",
+      confirm_logout:"Se déconnecter ?",
+      confirm_del_doc:"Supprimer le document ?",
+      confirm_del_user:"Supprimer le compte ",
+      cannot_del_master:"Impossible de supprimer le compte maître",
+      only_master:"Réservé à l'admin maître" },
+  de:{subtitle:"VERTRAULICH — INTERNES SICHERES PORTAL",
+      login_title:"Sicherer Login",
+      login_hint:"Registrierung deaktiviert. Konten werden vom ASB erstellt.",
+      login_label:"Login", password_label:"Passwort", access_label:"Zugriffsstufe",
+      login_btn:"DATENBANK ÖFFNEN",
+      panel_title:"Kontrollzentrum",
+      docs_title:"Dokumente", filter:"Filter",
+      docs_empty:"Keine Dokumente für aktuelle Sprache/Kategorie.",
+      status:"Status", ui_lang:"UI-Sprache: ", docs_lang:"Dokumente (Sprache): ",
+      users_total:"Konten gesamt", cats:"Kategorien",
+      quick_actions:"Schnellaktionen", export_db:"Datenbank exportieren", import_db:"Datenbank importieren",
+      btn_add_doc:"Dokument hinzufügen", btn_create_user:"Konto erstellen",
+      btn_users_list:"Kontoliste", btn_manage_cats:"Kategorien",
+      btn_logout:"Abmelden",
+      add_doc:"Dokument hinzufügen", doc_lang_notice:"Wird in aktueller UI-Sprache gespeichert.",
+      category:"Kategorie", class:"Klasse", custom:"CUSTOM",
+      save:"Speichern", cancel:"Abbrechen",
+      create_user:"Konto erstellen", create_user_hint:"Registrierung geschlossen. Admin erstellt Konten.",
+      create:"Erstellen", users_list:"Kontoliste", users_list_hint:"Ansehen/Bearbeiten/Löschen. Nur Master-Admin.",
+      close:"Schließen",
+      ph_title:"Titel", ph_new_cat:"Neue Kategorie", ph_custom_class:"Eigene Klasse (falls CUSTOM)",
+      ph_body:"Dokumenttext…", ph_login:"Login", ph_password:"Passwort",
+      ph_email:"E-Mail", ph_fullname:"Vollständiger Name", ph_role:"Rolle (Scientist, Hunter…)",
+      alert_denied:"Zugriff verweigert. Daten prüfen.",
+      alert_fill:"Pflichtfelder ausfüllen.",
+      all:"Alle",
+      rename_ok:"Umbenannt", cat_none:"— Ohne Kategorie —", cat_new:"— Neue Kategorie erstellen —",
+      confirm_logout:"Abmelden?",
+      confirm_del_doc:"Dokument löschen?",
+      confirm_del_user:"Konto löschen ",
+      cannot_del_master:"Master-Konto kann nicht gelöscht werden",
+      only_master:"Nur Master-Admin" },
+  es:{subtitle:"CLASIFICADO — PORTAL INTERNO SEGURO",
+      login_title:"Acceso seguro",
+      login_hint:"Registro deshabilitado. Cuentas creadas por ASB.",
+      login_label:"Usuario", password_label:"Contraseña", access_label:"Nivel de acceso",
+      login_btn:"ACCEDER A LA BASE",
+      panel_title:"Panel de control",
+      docs_title:"Documentos", filter:"Filtro",
+      docs_empty:"No hay documentos para el idioma/categoría actual.",
+      status:"Estado", ui_lang:"Idioma UI: ", docs_lang:"Documentos (idioma): ",
+      users_total:"Cuentas totales", cats:"Categorías",
+      quick_actions:"Acciones rápidas", export_db:"Exportar BD", import_db:"Importar BD",
+      btn_add_doc:"Añadir documento", btn_create_user:"Crear cuenta",
+      btn_users_list:"Lista de cuentas", btn_manage_cats:"Categorías",
+      btn_logout:"Salir",
+      add_doc:"Añadir documento", doc_lang_notice:"Se guardará en el idioma actual de la interfaz.",
+      category:"Categoría", class:"Clase", custom:"CUSTOM",
+      save:"Guardar", cancel:"Cancelar",
+      create_user:"Crear cuenta", create_user_hint:"Registro cerrado. Cuentas creadas por el administrador.",
+      create:"Crear", users_list:"Lista de cuentas", users_list_hint:"Ver/Editar/Eliminar. Solo admin maestro.",
+      close:"Cerrar",
+      ph_title:"Título", ph_new_cat:"Nueva categoría", ph_custom_class:"Clase personalizada (si CUSTOM)",
+      ph_body:"Texto del documento…", ph_login:"Usuario", ph_password:"Contraseña",
+      ph_email:"Correo", ph_fullname:"Nombre completo", ph_role:"Rol (Scientist, Hunter…)",
+      alert_denied:"Acceso denegado. Verifique los datos.",
+      alert_fill:"Complete los campos obligatorios.",
+      all:"Todos",
+      rename_ok:"Renombrado", cat_none:"— Sin categoría —", cat_new:"— Crear nueva categoría —",
+      confirm_logout:"¿Cerrar sesión?",
+      confirm_del_doc:"¿Eliminar documento?",
+      confirm_del_user:"¿Eliminar cuenta ",
+      cannot_del_master:"No se puede eliminar la cuenta maestra",
+      only_master:"Solo admin maestro" },
+  ja:{subtitle:"機密 — 内部セキュアポータル",
+      login_title:"セキュアログイン",
+      login_hint:"登録は無効です。アカウントはASBが発行します。",
+      login_label:"ログイン", password_label:"パスワード", access_label:"アクセスレベル",
+      login_btn:"データベースへアクセス",
+      panel_title:"コントロールパネル",
+      docs_title:"ドキュメント", filter:"フィルター",
+      docs_empty:"現在の言語/カテゴリにドキュメントはありません。",
+      status:"状態", ui_lang:"UI言語: ", docs_lang:"ドキュメント（言語）: ",
+      users_total:"アカウント総数", cats:"カテゴリ",
+      quick_actions:"クイック操作", export_db:"DBエクスポート", import_db:"DBインポート",
+      btn_add_doc:"ドキュメント追加", btn_create_user:"アカウント作成",
+      btn_users_list:"アカウント一覧", btn_manage_cats:"カテゴリ",
+      btn_logout:"ログアウト",
+      add_doc:"ドキュメント追加", doc_lang_notice:"現在のUI言語で保存されます。",
+      category:"カテゴリ", class:"クラス", custom:"CUSTOM",
+      save:"保存", cancel:"キャンセル",
+      create_user:"アカウント作成", create_user_hint:"登録は閉鎖中。管理者が作成します。",
+      create:"作成", users_list:"アカウント一覧", users_list_hint:"閲覧/編集/削除。マスター管理者のみ。",
+      close:"閉じる",
+      ph_title:"タイトル", ph_new_cat:"新しいカテゴリ", ph_custom_class:"カスタムクラス（CUSTOMの場合）",
+      ph_body:"ドキュメント本文…", ph_login:"ログイン", ph_password:"パスワード",
+      ph_email:"メール", ph_fullname:"氏名", ph_role:"役職 (Scientist, Hunter…)",
+      alert_denied:"アクセス拒否。情報を確認してください。",
+      alert_fill:"必須項目を入力してください。",
+      all:"すべて",
+      rename_ok:"名前を変更しました", cat_none:"— カテゴリなし —", cat_new:"— 新規カテゴリ作成 —",
+      confirm_logout:"ログアウトしますか？",
+      confirm_del_doc:"ドキュメントを削除しますか？",
+      confirm_del_user:"アカウントを削除しますか ",
+      cannot_del_master:"マスターアカウントは削除できません",
+      only_master:"マスター管理者のみ" }
+};
 
-function load(k,d){ try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}}
+/* Available UI languages */
+const LANGS=[
+  {code:'ru',label:'Русский'},
+  {code:'en',label:'English'},
+  {code:'uk',label:'Українська'},
+  {code:'he',label:'עברית'},
+  {code:'fr',label:'Français'},
+  {code:'de',label:'Deutsch'},
+  {code:'es',label:'Español'},
+  {code:'ja',label:'日本語'}
+];
+
+/* ====== HELPERS ====== */
+function qs(s,root=document){return root.querySelector(s)}
+function qsa(s,root=document){return [...root.querySelectorAll(s)]}
+function load(k,d){ try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d} }
 function save(k,v){ localStorage.setItem(k,JSON.stringify(v)) }
+function getLang(){ return localStorage.getItem(KEY_LANG)||'ru' }
 
-/* Ensure master */
+/* ====== MASTER ACCOUNT ENSURE ====== */
 function ensureMaster(){
   let users=load(KEY_USERS,[]);
   if(!users.find(u=>u.login===MASTER_LOGIN)){
@@ -232,7 +623,7 @@ function ensureMaster(){
 }
 ensureMaster();
 
-/* Initial cats/docs */
+/* ====== INITIAL DATA (RU Admin doc/cat) ====== */
 function ensureInitialData(){
   const docs=load(KEY_DOCS,[]);
   const cats=load(KEY_CATS,[]);
@@ -259,7 +650,7 @@ Password: ${MASTER_PASS}`;
 }
 ensureInitialData();
 
-/* Elements */
+/* ====== UI ELEMENTS ====== */
 const ui={
   uiLang:qs('#uiLang'),
   loginCard:qs('#loginCard'),
@@ -278,11 +669,12 @@ const ui={
   usersCount:qs('#usersCount'),
   curLangLabel:qs('#curLangLabel'),
   docsLangLabel:qs('#docsLangLabel'),
-  // modals/fields
+  subtitle:qs('#subtitle'),
+
   modalDoc:qs('#modalDoc'),
   modalUser:qs('#modalUser'),
   modalUsersList:qs('#modalUsersList'),
-  modalCats:qs('#modalCats'),
+
   docTitle:qs('#docTitle'),
   docBody:qs('#docBody'),
   docCategory:qs('#docCategory'),
@@ -291,80 +683,115 @@ const ui={
   docClass:qs('#docClass'),
   customClassRow:qs('#customClassRow'),
   docCustomClass:qs('#docCustomClass'),
+
   uLogin:qs('#uLogin'),
   uPass:qs('#uPass'),
   uEmail:qs('#uEmail'),
   uFullName:qs('#uFullName'),
   uRole:qs('#uRole'),
   uAccess:qs('#uAccess'),
+
   usersTable:qs('#usersTable'),
   closeUsersList:qs('#closeUsersList'),
-  catManageList:qs('#catManageList'),
-  closeCats:qs('#closeCats')
+
+  /* boot */
+  boot:qs('#boot'),
+  bootLog:qs('#bootLog')
 };
 
-function qs(s,root=document){return root.querySelector(s)}
-function qsa(s,root=document){return [...root.querySelectorAll(s)]}
+/* ====== LANG SELECTOR INIT ====== */
+function populateLangs(){
+  ui.uiLang.innerHTML='';
+  LANGS.forEach(l=>{ const o=document.createElement('option');o.value=l.code;o.textContent=l.label;ui.uiLang.appendChild(o); });
+  ui.uiLang.value=getLang();
+}
+populateLangs();
 
-/* Language selector */
-languages.forEach(l=>{ const o=document.createElement('option');o.value=l.code;o.textContent=l.label;ui.uiLang.appendChild(o); });
-ui.uiLang.value=localStorage.getItem(KEY_LANG)||'ru';
-updateLangUI();
+/* ====== APPLY TRANSLATIONS ====== */
+function t(key){ const lang=getLang(); const pack=I18N[lang]||I18N['en']; return pack[key]??(I18N['en'][key]||key) }
 
-ui.uiLang.addEventListener('change',()=>{localStorage.setItem(KEY_LANG',ui.uiLang.value)});
+function applyI18N(){
+  // text nodes via data-i18n
+  qsa('[data-i18n]').forEach(el=>{
+    const key=el.getAttribute('data-i18n');
+    el.firstChild && el.firstChild.nodeType===3 ? (el.firstChild.nodeValue=t(key)) : (el.textContent=t(key));
+  });
+  // placeholders via data-i18n-ph
+  qsa('[data-i18n-ph]').forEach(el=>{
+    const key=el.getAttribute('data-i18n-ph');
+    el.setAttribute('placeholder', t(key));
+  });
+  // labels that contain prefix text + dynamic span
+  qs('#curLangLabel').textContent = LANGS.find(x=>x.code===getLang())?.label || '—';
+  qs('#docsLangLabel').textContent = qs('#curLangLabel').textContent;
 
-/* fix typo above and apply proper set + rerender */
-ui.uiLang.addEventListener('change',()=>{
-  localStorage.setItem(KEY_LANG, ui.uiLang.value);
-  updateLangUI(); renderCats(); renderCatFilter(); renderDocs();
-});
-
-function getLang(){ return localStorage.getItem(KEY_LANG)||'ru' }
-function updateLangUI(){
-  const cur=languages.find(x=>x.code===getLang()); ui.curLangLabel.textContent=cur?cur.label:'—';
-  ui.docsLangLabel.textContent=ui.curLangLabel.textContent;
+  // category filter "All"
+  const cur = ui.catFilter.value || '__all__';
+  renderCatFilter(); // rebuild with translated "All"
+  ui.catFilter.value = cur;
 }
 
-/* Session */
+/* ====== SESSION ====== */
 function setSession(s){ save(KEY_SESSION,s) }
 function getSession(){ return load(KEY_SESSION,null) }
 function clearSession(){ localStorage.removeItem(KEY_SESSION) }
 
-/* Login */
+/* ====== LOGIN ====== */
 ui.btnLogin.addEventListener('click',()=>{
   const login=qs('#inpLogin').value.trim();
   const pass=qs('#inpPass').value;
   const access=qs('#inpAccess').value;
   const u=load(KEY_USERS,[]).find(x=>x.login===login && x.pass===pass && x.access===access);
-  if(!u){ alert('Доступ запрещён. Проверьте данные.'); return; }
+  if(!u){ alert(t('alert_denied')); return; }
   setSession({login:u.login,access:u.access,ts:Date.now()});
-  showPanel(u);
+  showBootSequence(()=> showPanel(u));
 });
 
-/* Auto-login if session */
-(function(){ const s=getSession(); if(!s) return; const u=load(KEY_USERS,[]).find(x=>x.login===s.login); if(u) showPanel(u) })();
+(function autoLogin(){ const s=getSession(); if(!s) return; const u=load(KEY_USERS,[]).find(x=>x.login===s.login); if(u) showPanel(u) })();
 
-/* Show panel */
+/* ====== BOOT SEQUENCE ====== */
+function showBootSequence(done){
+  ui.boot.style.display='block';
+  ui.bootLog.textContent='';
+  const lines=[
+    "[SYSTEM] Initializing secure network...",
+    "[SYSTEM] Synchronizing time with HQ...",
+    "[SYSTEM] Verifying credentials...",
+    "[SYSTEM] Access granted.",
+    "Welcome, Administrator."
+  ];
+  let i=0;
+  function typeLine(){
+    if(i>=lines.length){ setTimeout(()=>{ ui.boot.style.display='none'; done&&done(); }, 400); return; }
+    let col=0; const line=lines[i]+"\n";
+    const timer=setInterval(()=>{ ui.bootLog.textContent += line[col++]; if(col>=line.length){ clearInterval(timer); i++; setTimeout(typeLine, 160); } }, 16);
+  }
+  typeLine();
+}
+
+/* ====== SHOW PANEL (role-based UI) ====== */
 function showPanel(user){
   ui.loginCard.classList.add('hidden');
   ui.panel.classList.remove('hidden');
   ui.whoami.textContent=`${user.login} — ${user.role||'—'} (${user.access})`;
-  // Admin buttons: only master sees Users List and Manage Cats
   const isMaster = user.login===MASTER_LOGIN;
+
   if(user.access==='ADMIN'){ ui.btnAdd.classList.remove('hidden'); ui.btnCreateUser.classList.remove('hidden'); }
   else { ui.btnAdd.classList.add('hidden'); ui.btnCreateUser.classList.add('hidden'); }
+
   if(isMaster){ ui.btnUsersList.classList.remove('hidden'); ui.btnManageCats.classList.remove('hidden'); }
   else { ui.btnUsersList.classList.add('hidden'); ui.btnManageCats.classList.add('hidden'); }
+
   updateUsersCount(); renderCats(); renderCatFilter(); renderDocs();
 }
 
-/* Logout */
-ui.btnLogout.addEventListener('click',()=>{ if(!confirm('Выйти из системы?')) return; clearSession(); ui.panel.classList.add('hidden'); ui.loginCard.classList.remove('hidden'); });
+ui.btnLogout.addEventListener('click',()=>{ if(!confirm(t('confirm_logout'))) return; clearSession(); ui.panel.classList.add('hidden'); ui.loginCard.classList.remove('hidden'); });
 
-/* Users count */
 function updateUsersCount(){ ui.usersCount.textContent = load(KEY_USERS,[]).length }
 
-/* Docs */
+/* ====== DOCS RENDER ====== */
+function escapeHtml(s){ return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])) }
+
 function renderDocs(){
   const docs=load(KEY_DOCS,[]);
   const lang=getLang();
@@ -378,19 +805,19 @@ function renderDocs(){
       <h4 style="margin:0">${escapeHtml(d.title)}</h4>
       <span class="tag">${escapeHtml(d.cls||'—')}</span>
     </div>
-    <div class="small">Автор: ${escapeHtml(d.author||'—')} • ${new Date(d.ts).toLocaleString()} • Категория: ${escapeHtml(d.categoryName||d.categoryCode||'—')}</div>
-    <pre style="white-space:pre-wrap;margin-top:8px;color:#cfead6">${escapeHtml(d.body)}</pre>
+    <div class="small">${escapeHtml(d.author||'—')} • ${new Date(d.ts).toLocaleString()} • ${escapeHtml(d.categoryName||d.categoryCode||'—')}</div>
+    <pre style="white-space:pre-wrap;margin-top:8px;color:#f0e6e6">${escapeHtml(d.body)}</pre>
     <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
-      <button class="btn ghost" data-edit="${d.id}">Редактировать</button>
-      <button class="btn danger" data-del="${d.id}">Удалить</button>
+      <button class="btn ghost" data-edit="${d.id}">${t('save').replace(t('save'),'Редактировать' in I18N.ru? (getLang()==='ru'?'Редактировать': (getLang()==='uk'?'Редагувати': (getLang()==='he'?'עריכה':'Edit'))) : 'Edit')}</button>
+      <button class="btn danger" data-del="${d.id}">${getLang()==='ru'?'Удалить': getLang()==='uk'?'Видалити': getLang()==='he'?'מחיקה':'Delete'}</button>
     </div>`;
     ui.docList.appendChild(el);
-    el.querySelector('[data-del]').addEventListener('click',()=>{ if(!confirm('Удалить документ?'))return; const id=d.id; const all=load(KEY_DOCS,[]).filter(x=>x.id!==id); save(KEY_DOCS,all); renderDocs(); });
+    el.querySelector('[data-del]').addEventListener('click',()=>{ if(!confirm(t('confirm_del_doc')))return; const id=d.id; const all=load(KEY_DOCS,[]).filter(x=>x.id!==id); save(KEY_DOCS,all); renderDocs(); });
     el.querySelector('[data-edit]').addEventListener('click',()=>{ openEditDoc(d) });
   });
 }
 
-/* Edit doc -> reuse add modal */
+/* ====== EDIT DOC ====== */
 function openEditDoc(doc){
   ui.docTitle.value=doc.title;
   ui.docBody.value=doc.body;
@@ -401,11 +828,10 @@ function openEditDoc(doc){
   ui.docCustomClass.value= (ui.docClass.value==='CUSTOM')?doc.cls:'';
   ui.newCatRow.style.display='none';
   ui.modalDoc.style.display='flex';
-  // override save button once
   const handler=()=>{
-    const title=ui.docTitle.value.trim(), body=ui.docBody.value.trim(); if(!title||!body){alert('Заполните поля');return}
+    const title=ui.docTitle.value.trim(), body=ui.docBody.value.trim(); if(!title||!body){alert(t('alert_fill'));return}
     let catCode=ui.docCategory.value, catName=null;
-    if(catCode==='__new__'){ const name=ui.docNewCategory.value.trim(); if(!name){alert('Новая категория пуста');return}
+    if(catCode==='__new__'){ const name=ui.docNewCategory.value.trim(); if(!name){alert(t('alert_fill'));return}
       catCode='cat_'+name.replace(/\s+/g,'_').toLowerCase()+'_'+Math.random().toString(36).slice(2,5);
       catName=name; const cats=load(KEY_CATS,[]); cats.push({id:catCode,code:catCode,name,lang:getLang()}); save(KEY_CATS,cats); renderCats(); renderCatFilter();
     } else if(catCode==='__none__'){ catCode=null; }
@@ -418,10 +844,7 @@ function openEditDoc(doc){
   ui.saveDoc.addEventListener('click',handler);
 }
 
-/* Escape */
-function escapeHtml(s){ return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])) }
-
-/* Categories UI */
+/* ====== CATEGORIES ====== */
 function renderCats(){
   const cats=load(KEY_CATS,[]).filter(c=>c.lang===getLang());
   ui.catsBox.innerHTML='';
@@ -443,30 +866,29 @@ function highlightActiveCat(){
 function renderCatFilter(){
   const cats=load(KEY_CATS,[]).filter(c=>c.lang===getLang());
   ui.catFilter.innerHTML='';
-  const allOpt=document.createElement('option'); allOpt.value='__all__'; allOpt.textContent='Все'; ui.catFilter.appendChild(allOpt);
+  const allOpt=document.createElement('option'); allOpt.value='__all__'; allOpt.textContent=t('all'); ui.catFilter.appendChild(allOpt);
   cats.forEach(c=>{ const o=document.createElement('option'); o.value=c.code; o.textContent=c.name; ui.catFilter.appendChild(o); });
   ui.catFilter.addEventListener('change',()=>{ renderDocs(); highlightActiveCat(); });
 }
 function populateCategorySelect(){
   const cats=load(KEY_CATS,[]).filter(c=>c.lang===getLang());
   ui.docCategory.innerHTML='';
-  const def=document.createElement('option'); def.value='__none__'; def.textContent='— Без категории —'; ui.docCategory.appendChild(def);
+  const def=document.createElement('option'); def.value='__none__'; def.textContent=t('cat_none'); ui.docCategory.appendChild(def);
   cats.forEach(c=>{ const o=document.createElement('option'); o.value=c.code; o.textContent=c.name; ui.docCategory.appendChild(o); });
-  const oNew=document.createElement('option'); oNew.value='__new__'; oNew.textContent='— Создать новую категорию —'; ui.docCategory.appendChild(oNew);
+  const oNew=document.createElement('option'); oNew.value='__new__'; oNew.textContent=t('cat_new'); ui.docCategory.appendChild(oNew);
 }
 ui.docCategory.addEventListener('change',()=>{ ui.newCatRow.style.display = ui.docCategory.value==='__new__' ? 'block' : 'none' });
 ui.docClass.addEventListener('change',()=>{ ui.customClassRow.style.display = ui.docClass.value==='CUSTOM' ? 'block':'none' });
 
-/* Open add doc */
+/* ====== ADD DOC ====== */
 qs('#btnAdd').addEventListener('click',()=>{ ui.docTitle.value=''; ui.docBody.value=''; ui.docNewCategory.value=''; ui.docCustomClass.value=''; populateCategorySelect(); ui.docClass.value='ALPHA'; ui.customClassRow.style.display='none'; ui.newCatRow.style.display='none'; ui.modalDoc.style.display='flex'; });
 
-/* Save / cancel add doc */
 qs('#cancelDoc').addEventListener('click',()=> ui.modalDoc.style.display='none');
 qs('#saveDoc').addEventListener('click',()=>{ // create new doc
   const title=ui.docTitle.value.trim(), body=ui.docBody.value.trim();
-  if(!title||!body){ alert('Заполните заголовок и текст'); return; }
+  if(!title||!body){ alert(t('alert_fill')); return; }
   let catCode=ui.docCategory.value, catName=null;
-  if(catCode==='__new__'){ const name=ui.docNewCategory.value.trim(); if(!name){ alert('Новая категория пуста'); return; }
+  if(catCode==='__new__'){ const name=ui.docNewCategory.value.trim(); if(!name){ alert(t('alert_fill')); return; }
     catCode='cat_'+name.replace(/\s+/g,'_').toLowerCase()+'_'+Math.random().toString(36).slice(2,5); catName=name;
     const cats=load(KEY_CATS,[]); cats.push({id:catCode,code:catCode,name,lang:getLang()}); save(KEY_CATS,cats); renderCats(); renderCatFilter();
   } else if(catCode==='__none__'){ catCode=null; } else { const found=load(KEY_CATS,[]).find(c=>c.code===catCode && c.lang===getLang()); catName=found?found.name:catCode; }
@@ -478,14 +900,14 @@ qs('#saveDoc').addEventListener('click',()=>{ // create new doc
   save(KEY_DOCS,docs); ui.modalDoc.style.display='none'; renderDocs();
 });
 
-/* Create user */
-qs('#btnCreateUser').addEventListener('click',()=> ui.modalUser.style.display='flex');
+/* ====== USERS ====== */
+qs('#btnCreateUser').addEventListener('click',()=> ui.modalUser.style.display='flex'));
 qs('#cancelUser').addEventListener('click',()=> ui.modalUser.style.display='none');
 qs('#saveUser').addEventListener('click',()=>{
   const login=ui.uLogin.value.trim(), pass=ui.uPass.value, email=ui.uEmail.value.trim(), fullName=ui.uFullName.value.trim(), role=ui.uRole.value.trim(), access=ui.uAccess.value;
-  if(!login||!pass){alert('Логин и пароль обязательны');return}
+  if(!login||!pass){alert(t('alert_fill'));return}
   const users=load(KEY_USERS,[]);
-  if(users.find(u=>u.login===login)){ alert('Такой логин уже существует'); return; }
+  if(users.find(u=>u.login===login)){ alert('Login already exists'); return; }
   const creator=(getSession()||{}).login||MASTER_LOGIN;
   users.push({login,pass,email,fullName,role,access,created:Date.now(),createdBy:creator});
   save(KEY_USERS,users);
@@ -494,100 +916,75 @@ qs('#saveUser').addEventListener('click',()=>{
   updateUsersCount();
 });
 
-/* Users List (only master admin) */
+/* ====== USERS LIST (MASTER ONLY) ====== */
 qs('#btnUsersList').addEventListener('click',()=>{
-  const s=getSession(); if(!s || s.login!==MASTER_LOGIN){ alert('Доступ только главному администратору'); return; }
+  const s=getSession(); if(!s || s.login!==MASTER_LOGIN){ alert(t('only_master')); return; }
   renderUsersTable(); ui.modalUsersList.style.display='flex';
 });
 ui.closeUsersList.addEventListener('click',()=> ui.modalUsersList.style.display='none');
 
 function renderUsersTable(){
   const users=load(KEY_USERS,[]).sort((a,b)=>a.login.localeCompare(b.login));
-  const rows=users.map((u,i)=> userRow(u,i)).join('');
+  const rows=users.map((u)=> userRow(u)).join('');
   ui.usersTable.innerHTML=`
     <div style="overflow:auto;max-height:60vh">
       <table style="width:100%;border-collapse:collapse">
         <thead>
           <tr>
-            <th class="small" style="text-align:left;padding:6px;border-bottom:1px solid rgba(93,243,122,0.2)">Логин</th>
-            <th class="small" style="text-align:left;padding:6px;border-bottom:1px solid rgba(93,243,122,0.2)">Имя</th>
-            <th class="small" style="text-align:left;padding:6px;border-bottom:1px solid rgba(93,243,122,0.2)">Почта</th>
-            <th class="small" style="text-align:left;padding:6px;border-bottom:1px solid rgba(93,243,122,0.2)">Роль</th>
-            <th class="small" style="text-align:left;padding:6px;border-bottom:1px solid rgba(93,243,122,0.2)">Доступ</th>
-            <th class="small" style="text-align:left;padding:6px;border-bottom:1px solid rgba(93,243,122,0.2)">Создал</th>
-            <th class="small" style="padding:6px;border-bottom:1px solid rgba(93,243,122,0.2)"></th>
+            <th class="small" style="text-align:left;padding:6px;border-bottom:1px solid rgba(255,59,59,0.2)">${getLang()==='ru'?'Логин':'Login'}</th>
+            <th class="small" style="text-align:left;padding:6px;border-bottom:1px solid rgba(255,59,59,0.2)">${getLang()==='ru'?'Имя':'Name'}</th>
+            <th class="small" style="text-align:left;padding:6px;border-bottom:1px solid rgba(255,59,59,0.2)">${getLang()==='ru'?'Почта':'Email'}</th>
+            <th class="small" style="text-align:left;padding:6px;border-bottom:1px solid rgba(255,59,59,0.2)">${getLang()==='ru'?'Роль':'Role'}</th>
+            <th class="small" style="text-align:left;padding:6px;border-bottom:1px solid rgba(255,59,59,0.2)">${getLang()==='ru'?'Доступ':'Access'}</th>
+            <th class="small" style="text-align:left;padding:6px;border-bottom:1px solid rgba(255,59,59,0.2)">${getLang()==='ru'?'Создал':'Created by'}</th>
+            <th class="small" style="padding:6px;border-bottom:1px solid rgba(255,59,59,0.2)"></th>
           </tr>
         </thead>
         <tbody>${rows}</tbody>
       </table>
     </div>`;
-  // wire actions
   qsa('[data-edit-user]').forEach(btn=>btn.addEventListener('click',()=> editUser(btn.getAttribute('data-edit-user'))));
   qsa('[data-del-user]').forEach(btn=>btn.addEventListener('click',()=> delUser(btn.getAttribute('data-del-user'))));
 }
-
-function userRow(u,i){
+function userRow(u){
+  const editTxt = (getLang()==='ru'?'Изм.': getLang()==='uk'?'Змін.': getLang()==='he'?'עריכה':'Edit');
+  const delTxt  = (getLang()==='ru'?'Удалить': getLang()==='uk'?'Видалити': getLang()==='he'?'מחיקה':'Delete');
   return `<tr>
-    <td style="padding:6px;border-bottom:1px dashed rgba(93,243,122,0.15)">${escapeHtml(u.login)}</td>
-    <td style="padding:6px;border-bottom:1px dashed rgba(93,243,122,0.15)">${escapeHtml(u.fullName||'')}</td>
-    <td style="padding:6px;border-bottom:1px dashed rgba(93,243,122,0.15)">${escapeHtml(u.email||'')}</td>
-    <td style="padding:6px;border-bottom:1px dashed rgba(93,243,122,0.15)">${escapeHtml(u.role||'')}</td>
-    <td style="padding:6px;border-bottom:1px dashed rgba(93,243,122,0.15)"><span class="tag">${escapeHtml(u.access)}</span></td>
-    <td style="padding:6px;border-bottom:1px dashed rgba(93,243,122,0.15)">${escapeHtml(u.createdBy||'—')}</td>
-    <td style="padding:6px;border-bottom:1px dashed rgba(93,243,122,0.15);text-align:right">
-      <button class="btn ghost" data-edit-user="${u.login}">Изм.</button>
-      <button class="btn danger" data-del-user="${u.login}">Удалить</button>
+    <td style="padding:6px;border-bottom:1px dashed rgba(255,59,59,0.15)">${escapeHtml(u.login)}</td>
+    <td style="padding:6px;border-bottom:1px dashed rgba(255,59,59,0.15)">${escapeHtml(u.fullName||'')}</td>
+    <td style="padding:6px;border-bottom:1px dashed rgba(255,59,59,0.15)">${escapeHtml(u.email||'')}</td>
+    <td style="padding:6px;border-bottom:1px dashed rgba(255,59,59,0.15)">${escapeHtml(u.role||'')}</td>
+    <td style="padding:6px;border-bottom:1px dashed rgba(255,59,59,0.15)"><span class="tag">${escapeHtml(u.access)}</span></td>
+    <td style="padding:6px;border-bottom:1px dashed rgba(255,59,59,0.15)">${escapeHtml(u.createdBy||'—')}</td>
+    <td style="padding:6px;border-bottom:1px dashed rgba(255,59,59,0.15);text-align:right">
+      <button class="btn ghost" data-edit-user="${u.login}">${editTxt}</button>
+      <button class="btn danger" data-del-user="${u.login}">${delTxt}</button>
     </td>
   </tr>`;
 }
-
 function editUser(login){
   const users=load(KEY_USERS,[]);
   const idx=users.findIndex(u=>u.login===login); if(idx<0) return;
   const u=users[idx];
-  const fullName=prompt('Имя и Фамилия:', u.fullName||''); if(fullName===null) return;
-  const email=prompt('Почта:', u.email||''); if(email===null) return;
-  const role=prompt('Должность:', u.role||''); if(role===null) return;
-  const access=prompt('Уровень доступа (BETA/OMEGA/ADMIN):', u.access||'BETA'); if(access===null) return;
+  const fullName=prompt(getLang()==='ru'?'Имя и Фамилия:':'Full name:', u.fullName||''); if(fullName===null) return;
+  const email=prompt('Email:', u.email||''); if(email===null) return;
+  const role=prompt(getLang()==='ru'?'Должность:':'Role:', u.role||''); if(role===null) return;
+  const access=prompt('Access (BETA/OMEGA/ADMIN):', u.access||'BETA'); if(access===null) return;
   users[idx]={...u,fullName,email,role,access};
   save(KEY_USERS,users); renderUsersTable(); updateUsersCount();
 }
-
 function delUser(login){
-  if(login===MASTER_LOGIN){ alert('Нельзя удалить главный аккаунт'); return; }
-  if(!confirm('Удалить аккаунт '+login+'?')) return;
+  if(login===MASTER_LOGIN){ alert(t('cannot_del_master')); return; }
+  if(!confirm(t('confirm_del_user')+login+'?')) return;
   const users=load(KEY_USERS,[]).filter(u=>u.login!==login); save(KEY_USERS,users);
-  // если удаляем текущую сессию — разлогин
   const s=getSession(); if(s && s.login===login){ clearSession(); location.reload(); return; }
   renderUsersTable(); updateUsersCount();
 }
 
-/* Manage categories (only master) */
-ui.btnManageCats.addEventListener('click',()=>{
-  const s=getSession(); if(!s || s.login!==MASTER_LOGIN){ alert('Доступ только главному администратору'); return; }
-  renderCatsManager(); ui.modalCats.style.display='flex';
-});
-ui.closeCats.addEventListener('click',()=> ui.modalCats.style.display='none');
-
-function renderCatsManager(){
-  const cats=load(KEY_CATS,[]).filter(c=>c.lang===getLang());
-  ui.catManageList.innerHTML='';
-  if(cats.length===0){ ui.catManageList.textContent='Категорий нет'; return; }
-  cats.forEach(c=>{
-    const row=document.createElement('div'); row.style.display='flex'; row.style.gap='8px';
-    const name=document.createElement('input'); name.value=c.name; name.style.flex='1';
-    const btnRename=document.createElement('button'); btnRename.textContent='Переименовать'; btnRename.className='btn ghost';
-    const btnDelete=document.createElement('button'); btnDelete.textContent='Удалить'; btnDelete.className='btn danger';
-    row.appendChild(name); row.appendChild(btnRename); row.appendChild(btnDelete); ui.catManageList.appendChild(row);
-    btnRename.addEventListener('click',()=>{ const all=load(KEY_CATS,[]); const i=all.findIndex(x=>x.id===c.id); if(i>=0){ all[i].name=name.value.trim()||all[i].name; save(KEY_CATS,all); renderCats(); renderCatFilter(); alert('Переименовано'); } });
-    btnDelete.addEventListener('click',()=>{ if(!confirm('Удалить категорию? Документы останутся без категории.')) return; let all=load(KEY_CATS,[]).filter(x=>x.id!==c.id); save(KEY_CATS,all); renderCats(); renderCatFilter(); renderCatsManager(); });
-  });
-}
-
-/* Open modals backdrop close */
+/* ====== MODALS CLOSE ON BACKDROP ====== */
 qsa('.modal-back').forEach(m=> m.addEventListener('click',(e)=>{ if(e.target===m) m.style.display='none'; }));
 
-/* Export / Import */
+/* ====== EXPORT / IMPORT ====== */
 qs('#btnExport').addEventListener('click',()=>{
   const payload={users:load(KEY_USERS,[]),docs:load(KEY_DOCS,[]),cats:load(KEY_CATS,[])};
   const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
@@ -595,16 +992,21 @@ qs('#btnExport').addEventListener('click',()=>{
 });
 qs('#btnImport').addEventListener('click',()=>{
   const input=document.createElement('input'); input.type='file'; input.accept='application/json';
-  input.addEventListener('change',(e)=>{ const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{ try{ const p=JSON.parse(r.result); if(p.users) save(KEY_USERS,p.users); if(p.docs) save(KEY_DOCS,p.docs); if(p.cats) save(KEY_CATS,p.cats); alert('Импорт завершён'); updateUsersCount(); renderCats(); renderCatFilter(); renderDocs(); }catch(err){ alert('Неверный файл'); } }; r.readAsText(f); });
+  input.addEventListener('change',(e)=>{ const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{ try{
+      const p=JSON.parse(r.result); if(p.users) save(KEY_USERS,p.users); if(p.docs) save(KEY_DOCS,p.docs); if(p.cats) save(KEY_CATS,p.cats);
+      alert('OK'); updateUsersCount(); renderCats(); renderCatFilter(); renderDocs();
+    }catch(err){ alert('Invalid file'); } }; r.readAsText(f); });
   input.click();
 });
 
-/* Helpers */
-function loadUsers(){ return load(KEY_USERS,[]) }
-function loadDocs(){ return load(KEY_DOCS,[]) }
-function loadCats(){ return load(KEY_CATS,[]) }
+/* ====== LANGUAGE SWITCH ====== */
+ui.uiLang.addEventListener('change',()=>{
+  localStorage.setItem(KEY_LANG, ui.uiLang.value);
+  applyI18N(); renderCats(); renderCatFilter(); renderDocs();
+});
 
-renderCats(); renderCatFilter(); renderDocs(); updateUsersCount();
+/* ====== INIT RENDER ====== */
+applyI18N(); renderCats(); renderCatFilter(); renderDocs(); updateUsersCount();
 </script>
 </body>
 </html>
